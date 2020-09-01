@@ -48,7 +48,12 @@ app.get('/:email', (req, res) => {
 
   res.send(
     `${emails[req.params.email]
-      .map(email => `<div>${email.html ? email.html : email.textAsHtml}</div>`)
+      .map(
+        (email, i) =>
+          `<div style="padding: 16px; background: ${
+            i % 2 ? '#BBCBCB' : '#E5FFDE'
+          };">${email.html ? email.html : email.textAsHtml}</div>`
+      )
       .join('')}`
   );
 });
