@@ -7,45 +7,53 @@ const Mbox = require('node-mbox');
 let emails = {};
 
 const parseMboxFile = filename => {
-    emails = {};
+  emails = {};
 
-    const mbox = new Mbox(filename);
+  const mbox = new Mbox(filename);
 
-    mbox.on('message', async raw => {
-        const email = await simpleParser(raw);
-        const to = email.to.value[0].address;
+  mbox.on('message', async raw => {
+    const email = await simpleParser(raw);
+    const to = email.to.value[0].address;
 
-        if (!emails[to]) {
-            emails[to] = [];
-        }
+    if (!emails[to]) {
+      emails[to] = [];
+    }
 
-        emails[to].push(email.html);
-    });
+    emails[to].push(email);
+  });
 };
 
 const FILENAME = process.argv[3];
 fs.watchFile(FILENAME, () => {
-    console.log('file changed!');
-    parseMboxFile(FILENAME);
+  console.log('file changed!');
+  parseMboxFile(FILENAME);
 });
 parseMboxFile(FILENAME);
 
 app.get('/', (req, res) => {
-    res.send(`<h3>Usage: </h3><p>Append a email address to the url to see all emails for that recipient.<br>Example: bots.godsss.online/manugay1@gmail.com</p>`);
+  res.send(
+    `<h3>Usage: </h3><p>Append a email address to the url to see all emails for that recipient.<br>Example: bots.godsss.online/manugay1@gmail.com</p>`
+  );
 });
 
 app.get('/:email', (req, res) => {
-    if (!emails[req.params.email]) {
-        return res.send(`<h3>There are no emails for ${req.params.email}.</h3><p>Try searching for another address.</p>`)
-    }
+  if (!emails[req.params.email]) {
+    return res.send(
+      `<h3>There are no emails for ${req.params.email}.</h3><p>Try searching for another address.</p>`
+    );
+  }
 
-    const addressEmails = [...emails[req.params.email]];
+  const addressEmails = [...emails[req.params.email]];
+  addressEmails.sort((a, b) => b.date - a.date);
 
-    addressEmails.reverse();
-    res.send(`${emails[req.params.email].map(email => `<div>${email}</div>`).join('')}`);
+  res.send(
+    `${emails[req.params.email]
+      .map(email => `<div>${email.html ? email.html : email.textAsHtml}</div>`)
+      .join('')}`
+  );
 });
 
 const PORT = +process.argv[2];
 app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`);
+  console.log(`Example app listening at http://localhost:${PORT}`);
 });
