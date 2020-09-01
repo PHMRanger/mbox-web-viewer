@@ -47,7 +47,7 @@ app.get('/:email', (req, res) => {
   addressEmails.sort((a, b) => b.date - a.date);
 
   res.send(
-    `${emails[req.params.email]
+    `${addressEmails
       .map(
         (email, i) =>
           `<div style="padding: 16px; background: ${
