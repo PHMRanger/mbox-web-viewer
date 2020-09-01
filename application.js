@@ -19,7 +19,7 @@ const parseMboxFile = filename => {
             emails[to] = [];
         }
 
-        emails[to].push(email.textAsHtml);
+        emails[to].push(email.html);
     });
 };
 
