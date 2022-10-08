@@ -1,24 +1,29 @@
 {
   "name": "mbox-web-viewer",
-  "version": "1.0.0",
-  "description": "A simple mbox web viewer.",
-  "main": "application.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "1.1.0",
+  "description": "A web viewer for mbox files. Watches live for changes, and supports multiple email addresses.",
+  "bin": "bin/run.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PHMRanger/mbox-web-viewer.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Filip Corlan",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/PHMRanger/mbox-web-viewer/issues"
   },
   "homepage": "https://github.com/PHMRanger/mbox-web-viewer#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "mailparser": "^2.8.1",
+    "dashdash": "^2.0.0",
+    "express": "^4.18.1",
+    "mailparser": "^3.5.0",
     "node-mbox": "^1.0.0"
-  }
+  },
+  "keywords": [
+    "mbox",
+    "mbox-viewer",
+    "mbox-web-viewer",
+    "email-viewer",
+    "email-web-viewer"
+  ]
 }
